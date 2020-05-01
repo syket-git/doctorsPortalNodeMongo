@@ -50,6 +50,21 @@ app.post('/appointment-list', (req, res) => {
 })
 })
 
+app.get("/all-appointments", (req, res) => {
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true  });
+    client.connect(err => {
+    const collection = client.db("Appointments").collection("appointments");
+    collection.find().toArray((err, documents) => {
+        if(err){
+            res.status(500).send({message:err})
+        }else{
+            console.log(documents);
+            res.send(documents);
+        }
+    })
+})
+})
+
 
 
 
